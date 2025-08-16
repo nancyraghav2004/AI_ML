@@ -5,6 +5,7 @@ class Node():
         self.state = state
         self.parent = parent
         self.action = action
+        #Not calculating path cost, because we can calculate it at the end
 
 class StackFrontier():
     def __init__(self):
@@ -82,7 +83,7 @@ class Maze():
         for i, row in enumerate(self.walls):
             for j, col in enumerate(row):
                 if col:
-                    print("👣", end="")
+                    print("🗄️", end="")
                 elif (i, j) == self.start:
                     print("A", end="")
                 elif (i, j) == self.goal:
@@ -139,6 +140,7 @@ class Maze():
             #Choose a node from the frontier
             node = frontier.remove()
             self.num_explored += 1
+            
 
             #If node is the goal, then we have a solution
             if node.state == self.goal:
@@ -167,8 +169,36 @@ class Maze():
         def output_image(self, filename, show_solution=True, show_explored = False):
             from PIL import Image, ImageDraw
 
+# if __name__ == "__main__":
+#     filename = sys.argv[1]
+#     m = Maze(filename)
+#     m.solve()
+#     m.print()
 if __name__ == "__main__":
     filename = sys.argv[1]
     m = Maze(filename)
-    m.solve()
-    m.print()
+    
+    try:
+        m.solve()
+        m.print()
+
+        # ✅ Print number of explored steps
+        print(f"\nTotal steps explored: {m.num_explored}")
+
+        # ✅ Print the actual path (coordinates)
+        print("\nPath to goal (coordinates):")
+        for cell in m.solution[1]:
+            print(cell)
+
+        # ✅ Print the actions taken
+        print("\nActions taken:")
+        for action in m.solution[0]:
+            print(action)
+
+        # ✅ Final result
+        print("\nMaze solved successfully! 🎉")
+
+    except Exception as e:
+        print("\nMaze could not be solved 😢")
+        print("Reason:", e)
+
