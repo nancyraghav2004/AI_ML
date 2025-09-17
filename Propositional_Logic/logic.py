@@ -228,3 +228,20 @@ def model_check(knowledge, query):
     #Check that knowledge entails query
     return check_all(knowledge, query, symbols, dict())
     
+class KnowledgeBase:
+    def __init__(self):
+        self.sentences = []
+
+    def add(self, sentence):
+        Sentence.validate(sentence)
+        self.sentences.append(sentence)
+
+    def formula(self):
+        return And(*self.sentences)
+
+    def evaluate(self, model):
+        return self.formula().evaluate(model)
+
+    def symbols(self):
+        return self.formula().symbols()
+
