@@ -11,7 +11,7 @@ knowledge = And()
 
 for person in people:
     for house in houses:
-        symbols.append(Symbol(f"{person}{houses}"))
+        symbols.append(Symbol(f"{person}{house}"))
 
 knowledge = KnowledgeBase()
 
@@ -39,13 +39,35 @@ for person in people:
 for house in houses:
     for p1 in people:
         for p2 in people:
-            knowledge.add(
-                Implication(Symbol(f"{p1}{house}"), Not(Symbol(f"{p2}{house}")))
-            )
+            if p1 != p2:
+                knowledge.add(
+                    Implication(Symbol(f"{p1}{house}"), Not(Symbol(f"{p2}{house}")))
+                )
 
-print(knowledge.formula)
+#print(knowledge.formula())
 
-# # TODO
+knowledge.add(Not(Symbol("PomonaSlytherin")))
+knowledge.add(Symbol("MinervaGryffindor"))
+
+# # # TODO
 # for symbol in symbols:
 #     if model_check(knowledge, symbol):
 #         print(symbol)
+
+
+def find_one_model(knowledge):
+    symbols = knowledge.symbols()
+    for values in itertools.product([True, False], repeat=len(symbols)):
+        model = dict(zip(symbols, values))
+        if knowledge.evaluate(model):
+            return model
+    return None
+
+model = find_one_model(knowledge)
+if model:
+    print("Solution:")
+    for symbol in symbols:
+        if model.get(symbol.name):
+            print(symbol.name)
+else:
+    print("No valid assignment found.")
