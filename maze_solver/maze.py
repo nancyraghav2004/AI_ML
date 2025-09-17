@@ -169,11 +169,7 @@ class Maze():
         def output_image(self, filename, show_solution=True, show_explored = False):
             from PIL import Image, ImageDraw
 
-# if __name__ == "__main__":
-#     filename = sys.argv[1]
-#     m = Maze(filename)
-#     m.solve()
-#     m.print()
+
 if __name__ == "__main__":
     filename = sys.argv[1]
     m = Maze(filename)
@@ -182,23 +178,22 @@ if __name__ == "__main__":
         m.solve()
         m.print()
 
-        # ✅ Print number of explored steps
+        # Total steps explored
         print(f"\nTotal steps explored: {m.num_explored}")
 
-        # ✅ Print the actual path (coordinates)
-        print("\nPath to goal (coordinates):")
+        # Coordinates of the solution path (where * was printed)
+        print("\nCoordinates where '*' was printed (solution path):")
         for cell in m.solution[1]:
             print(cell)
 
-        # ✅ Print the actions taken
+        # Actions taken to reach the goal
         print("\nActions taken:")
         for action in m.solution[0]:
             print(action)
 
-        # ✅ Final result
-        print("\nMaze solved successfully! 🎉")
+        # Final result
+        print("\nMaze solved successfully! ")
 
     except Exception as e:
-        print("\nMaze could not be solved 😢")
+        print("\nMaze could not be solved ")
         print("Reason:", e)
-
